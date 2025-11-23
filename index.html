@@ -500,7 +500,7 @@
     <div class="portfolio-wrapper">
         <div class="sidebar">
             <div class="profile-img">
-                <img src="/Manaal.png" alt="Manaal Fatima" class="actual-profile-photo"> 
+                <img src="/Manaal (1).png" alt="Manaal Fatima" class="actual-profile-photo"> 
             </div>
 
             <div class="profile-name">
@@ -568,7 +568,7 @@
                     <p>I believe great design and technology have the power to transform ideas into meaningful experiences. Whether I’m building a product or designing something new, I’m always exploring innovative ways to bring concepts to life.</p>
                 </div>
 
-                <a href="/MANAAL_FATIMA_RESUME.pdf" class="download-btn">
+                <a href="/MANAAL_FATIMA_RESUME (2).pdf" class="download-btn">
                     <i class="fas fa-download"></i>
                     Download Resume
                 </a>
@@ -756,7 +756,7 @@
         </div>
     </div>
 
-    <script>
+  <script>
         function showSection(sectionId, event) {
             // Hide all sections
             const sections = document.querySelectorAll('.section');
@@ -767,25 +767,38 @@
             navItems.forEach(item => item.classList.remove('active'));
             
             // Show selected section
-            document.getElementById(sectionId).classList.add('active');
+            const targetSection = document.getElementById(sectionId);
+            targetSection.classList.add('active');
             
-            // Add active to the clicked nav item (in both menus, if applicable)
-            
-            // Find the desktop nav item and activate it
-            const desktopNavItem = document.querySelector(`.nav-menu .nav-item[data-section="${sectionId}"]`);
-            if (desktopNavItem) {
-                desktopNavItem.classList.add('active');
-            }
+            // Activate the corresponding nav items (desktop and mobile)
+            document.querySelectorAll(`.nav-item[data-section="${sectionId}"]`).forEach(item => {
+                item.classList.add('active');
+            });
 
-            // Find the mobile nav item and activate it
-            const mobileNavItem = document.querySelector(`.mobile-nav .nav-item[data-section="${sectionId}"]`);
-            if (mobileNavItem) {
-                mobileNavItem.classList.add('active');
-            }
-
-            // Fallback for the originally clicked item (in case the above selectors miss something)
-            if (event && event.currentTarget) {
-                 event.currentTarget.classList.add('active');
+            // =======================================================
+            // ** NEW CHANGE HERE: Mobile Scrolling Logic **
+            // =======================================================
+            // Scroll only on widths less than or equal to 900px (Mobile View)
+            if (window.innerWidth <= 900) {
+                // Find the target section element
+                const targetElement = document.getElementById(sectionId);
+                
+                if (targetElement) {
+                    // Considering the height of the fixed mobile navigation bar (60px bar + 10px margin)
+                    const mobileNavHeight = 70; 
+                    
+                    // Get the position of the target element from the top of the document
+                    const targetPosition = targetElement.offsetTop;
+                    
+                    // Final scroll position = Section's top position - Fixed bar's height/offset
+                    const scrollToPosition = targetPosition - mobileNavHeight;
+                    
+                    // Scroll the entire window smoothly
+                    window.scrollTo({
+                        top: scrollToPosition,
+                        behavior: 'smooth' // Enable smooth scrolling
+                    });
+                }
             }
         }
 
@@ -799,8 +812,4 @@
         });
     </script>
 </body>
-
 </html>
-
-
-
