@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manaal Fatima - Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Global Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1A1A1A; /* Very dark background */
+            color: #e0e0e0; 
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Main Portfolio Wrapper */
+        .portfolio-wrapper {
+            display: flex;
+            max-width: 1200px;
+            margin: 40px auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: relative; 
+            height: auto; 
+            width: 350px;
+            background-color: #262626; /* Dark grey for cards/sidebar */
+            padding: 40px 30px;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        /* Profile Image Container */
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 20px; /* Rounded square */
+            background-color: #1f1f1f; 
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            overflow: hidden; 
+        }
+        
+        /* Actual Image Styling */
+        .profile-img .actual-profile-photo {
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; /* Ensures image covers the container */
+            border-radius: 20px;
+        }
+
+        .profile-name {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .profile-name h1 {
+            font-size: 28px;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .profile-name p {
+            color: #a0a0a0; 
+            font-size: 16px;
+        }
+
+        .contact-info {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #1f1f1f; 
+            border-radius: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            color: #e0e0e0; 
+            font-size: 14px;
+        }
+
+        .contact-item i {
+            width: 40px;
+            height: 40px;
+            background-color: #FFC300; /* Gold/Orange Accent */
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #1A1A1A; 
+            box-shadow: 0 5px 15px rgba(255, 195, 0, 0.2);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .social-links a {
+            width: 45px;
+            height: 45px;
+            background-color: #1f1f1f; 
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e0e0e0; 
+            font-size: 20px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background-color: #FFC300; 
+            color: #1A1A1A; 
+            transform: translateY(-3px);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            background-color: #1f1f1f; 
+            padding: 40px 50px;
+        }
+
+        /* ------------------------------------------------------------------- */
+        /* ** Nav Menu (Desktop View) - This is visible on large screens ** */
+        /* ------------------------------------------------------------------- */
+        .nav-menu {
+            display: flex; /* Default: Show the desktop menu */
+            gap: 30px;
+            margin-bottom: 50px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item {
+            padding: 15px 0;
+            cursor: pointer;
+            color: #a0a0a0; 
+            font-size: 16px;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        /* Shared active state for both menus */
+        .nav-item.active, .nav-item:hover {
+            color: #FFC300; 
+            border-bottom-color: #FFC300; 
+        }
+        /* ------------------------------------------------------------------- */
+
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 32px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 3px;
+            background-color: #FFC300; 
+            margin-top: 10px;
+        }
+
+        .section-subtitle {
+            color: #a0a0a0; 
+            margin-bottom: 40px;
+            font-size: 18px;
+        }
+
+        /* About Section (Content styles) */
+        .about-text {
+            color: #e0e0e0; 
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* Card Style */
+        .skill-card, .project-card, .timeline-item, .achievement-card {
+            background-color: #262626; 
+            border-radius: 20px; 
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            transition: all 0.3s ease;
+        }
+
+        .skill-card {
+            text-align: center;
+        }
+
+        .skill-card:hover {
+            background-color: rgba(255, 195, 0, 0.1);
+            transform: translateY(-5px);
+            border-color: #FFC300; 
+        }
+
+        .skill-card i {
+            font-size: 40px;
+            color: #FFC300; 
+            margin-bottom: 10px;
+        }
+
+        /* Experience & Education - Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background-color: #FFC300; 
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            border-left: none; 
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            background: #FFC300; 
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(255, 195, 0, 0.2);
+        }
+
+        .timeline-date {
+            color: #FFC300; 
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .timeline-title {
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .timeline-subtitle {
+            color: #a0a0a0; 
+            margin-bottom: 15px;
+        }
+
+        .timeline-text {
+            color: #e0e0e0; 
+            line-height: 1.6;
+        }
+
+        .timeline-text li {
+            margin: 8px 0;
+            list-style: circle; 
+            margin-left: 20px;
+        }
+
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            overflow: hidden;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .project-image {
+            height: 200px;
+            background-color: #FFC300; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: #1A1A1A; 
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .project-content {
+            padding: 25px;
+        }
+
+        .project-title {
+            font-size: 22px;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .project-description {
+            color: #e0e0e0; 
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tech-tag {
+            background-color: rgba(255, 195, 0, 0.15); 
+            color: #FFC300; 
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        /* Achievements */
+        .achievement-card {
+            margin-bottom: 20px;
+            border-left: 4px solid #FFC300; 
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .achievement-card:hover {
+            background-color: rgba(255, 195, 0, 0.05);
+            transform: translateX(5px);
+        }
+
+        .achievement-card i {
+            font-size: 24px;
+            color: #FFC300; 
+            margin-right: 0;
+        }
+
+        .achievement-card h3 {
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .achievement-card p {
+            color: #e0e0e0; 
+        }
+        
+        /* Download Button */
+        .download-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #FFC300; 
+            color: #1A1A1A; 
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 195, 0, 0.4);
+        }
+
+        .download-btn i {
+            margin-right: 8px;
+            color: #1A1A1A; 
+        }
+
+        /* ------------------------------------------------------------------- */
+        /* ** Mobile Navigation Bar (Bottom Nav) Styling ** */
+        /* ------------------------------------------------------------------- */
+        .mobile-nav {
+            display: none; /* By default, hide the mobile nav on large screens */
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) { 
+            .portfolio-wrapper {
+                flex-direction: column;
+                margin: 0;
+                border-radius: 0;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            /* **Hide desktop menu on mobile** */
+            .nav-menu {
+                display: none; 
+            }
+
+            .main-content {
+                padding: 30px 20px;
+                /* Add space for the fixed bottom navigation bar */
+                padding-bottom: 80px; 
+            }
+
+            /* **Mobile Navigation Bar (Bottom Nav) - Show and Style** */
+            .mobile-nav {
+                display: flex; /* Show only on mobile */
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 60px; /* Height of the bar */
+                background-color: #262626; 
+                z-index: 1000;
+                justify-content: space-around;
+                align-items: center;
+                box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.4);
+            }
+
+            .mobile-nav .nav-item {
+                display: flex;
+                flex-direction: column; 
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                flex: 1;
+                color: #a0a0a0; 
+                transition: color 0.3s ease;
+                border-top: 3px solid transparent; 
+                padding-top: 5px;
+            }
+
+            /* Hide text, show only icons */
+            .mobile-nav .nav-item {
+                font-size: 0; 
+            }
+            
+            .mobile-nav .nav-item i {
+                font-size: 24px; 
+                margin-bottom: 0; 
+            }
+
+            /* Active state for mobile nav */
+            .mobile-nav .nav-item.active {
+                color: #FFC300; 
+                border-top-color: #FFC300; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="portfolio-wrapper">
+        <div class="sidebar">
+            <div class="profile-img">
+                <img src="/Manaal (1).png" alt="Manaal Fatima" class="actual-profile-photo"> 
+            </div>
+
+            <div class="profile-name">
+                <h1>Manaal Fatima</h1>
+                <p>WordPress Developer & UI/UX Designer</p>
+            </div>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>fatimamanaal49@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+91 6306323861</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Lucknow, Uttar Pradesh</span>
+                </div>
+               
+            </div>
+
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/manaal-fatima" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.instagram.com/miss_sayed7860?igsh=MTJybXN4MWJ5Mzc2eg==" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://github.com/dev-manaal" title="GitHub"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+
+        <div class="mobile-nav">
+            <div class="nav-item active" data-section="about" onclick="showSection('about', event)">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="nav-item" data-section="experience" onclick="showSection('experience', event)">
+                <i class="fas fa-briefcase"></i>
+            </div>
+            <div class="nav-item" data-section="projects" onclick="showSection('projects', event)">
+                <i class="fas fa-code"></i>
+            </div>
+            <div class="nav-item" data-section="skills" onclick="showSection('skills', event)">
+                <i class="fas fa-cogs"></i>
+            </div>
+            <div class="nav-item" data-section="achievements" onclick="showSection('achievements', event)">
+                <i class="fas fa-medal"></i>
+            </div>
+        </div>
+        <div class="main-content">
+            <nav class="nav-menu">
+                <div class="nav-item active" data-section="about" onclick="showSection('about', event)">About</div>
+                <div class="nav-item" data-section="experience" onclick="showSection('experience', event)">Experience</div>
+                <div class="nav-item" data-section="projects" onclick="showSection('projects', event)">Projects</div>
+                <div class="nav-item" data-section="skills" onclick="showSection('skills', event)">Skills</div>
+                <div class="nav-item" data-section="achievements" onclick="showSection('achievements', event)">Achievements</div>
+            </nav>
+            <div id="about" class="section active fade-in">
+                <h2 class="section-title">About Me</h2>
+                <p class="section-subtitle">Creative Developer & Designer</p>
+                
+                <div class="about-text">
+                    <p>Hi! I'm Manaal Fatima, a passionate and motivated web developer with a strong focus on creating engaging, user-friendly digital experiences. With hands-on experience in web development, WordPress, and UI/UX design, I specialize in building responsive websites, educational platforms, and interactive applications that make digital learning simple and enjoyable.</p>
+                    <br>
+                    <p>Currently working as a WordPress Developer at CYPWNG SOFTWARE TECHNOLOGY, I’ve created responsive websites, designed intuitive user interfaces using Figma and Canva, and optimized web performance for better user experience and conversion. My work blends technical expertise with creativity—from coding interactive games to crafting beautiful 2D and 3D wall art.</p>
+                    <br>
+                    <p>I believe great design and technology have the power to transform ideas into meaningful experiences. Whether I’m building a product or designing something new, I’m always exploring innovative ways to bring concepts to life.</p>
+                </div>
+
+                <a href="/MANAAL_FATIMA_RESUME (2).pdf" class="download-btn">
+                    <i class="fas fa-download"></i>
+                    Download Resume
+                </a>
+            </div>
+
+            <div id="experience" class="section">
+                <h2 class="section-title">Experience & Education</h2>
+                <p class="section-subtitle">My professional journey</p>
+
+                <h3 style="color: #FFC300; margin: 30px 0 20px 0; font-size: 24px;">Work Experience</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">May 2025 – Present</div>
+                        <h3 class="timeline-title">WordPress Developer</h3>
+                        <p class="timeline-subtitle">CYPWNG SOFTWARE TECHNOLOGY</p>
+                        <ul class="timeline-text">
+                            <li>Designing and developing responsive WordPress websites tailored to client needs</li>
+                            <li>Collaborating on UI/UX design projects using Figma and Canva to create visually appealing and user-friendly interfaces</li>
+                            <li>Assisting in theme customization, plugin configuration, and performance optimization</li>
+                            <li>Gaining hands-on experience with real-world web development and design workflows</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 style="color: #FFC300; margin: 40px 0 20px 0; font-size: 24px;">Education</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">July 2022 - July 2025</div>
+                        <h3 class="timeline-title">B.Tech in Computer Science and Engineering</h3>
+                        <p class="timeline-subtitle">Dr. A.P.J. Abdul Kalam Technical University - Lucknow, UP</p>
+                        <p class="timeline-text">Focused on software engineering, data structures, algorithms, and network infrastructure.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">Aug 2018 - Aug 2021</div>
+                        <h3 class="timeline-title">Diploma in Computer Science & Engineering</h3>
+                        <p class="timeline-subtitle">Board Of Technical Education - Uttar Pradesh</p>
+                        <p class="timeline-text">Built strong foundation in computer science fundamentals and programming.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="projects" class="section">
+                <h2 class="section-title">Projects</h2>
+                <p class="section-subtitle">My creative work</p>
+
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">ArtyCraftyness E-Learning Platform</h3>
+                            <p class="project-description">
+                                Designed and developed an engaging e-learning platform focused on art and craft education for children. Created structured, step-by-step learning sections with integrated video tutorials and a user-friendly interface tailored to young learners.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">WordPress</span>
+                                <span class="tech-tag">UI/UX Design</span>
+                                <span class="tech-tag">Video Integration</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Logical Game - Data Structures</h3>
+                            <p class="project-description">
+                                Developed an interactive educational game teaching data structure concepts like Arrays, Linked Lists, Stacks, Queues, and Trees. Designed engaging game levels to enhance logical thinking with a responsive UI for seamless cross-device experience.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">HTML</span>
+                                <span class="tech-tag">CSS</span>
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">Game Development</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="skills" class="section">
+                <h2 class="section-title">Skills & Technologies</h2>
+                <p class="section-subtitle">My technical toolkit</p>
+
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <i class="fab fa-html5"></i>
+                        <p>HTML</p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fab fa-css3-alt"></i>
+                        <p>CSS</p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fab fa-js"></i>
+                        <p>JavaScript</p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fab fa-wordpress"></i>
+                        <p>WordPress</p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fab fa-figma"></i>
+                        <p>Figma</p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fas fa-palette"></i>
+                        <p>Canva</p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fab fa-github"></i>
+                        <p>GitHub</p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fas fa-code"></i>
+                        <p>VS Code</p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fab fa-microsoft"></i>
+                        <p>MS Office</p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fas fa-file-excel"></i>
+                        <p>Excel</p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fas fa-file-powerpoint"></i>
+                        <p>PowerPoint</p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fas fa-robot"></i>
+                        <p>ChatGPT</p>
+                    </div>
+                </div>
+
+                <h3 style="color: #FFC300; margin: 40px 0 20px 0; font-size: 24px;">Languages</h3>
+                <div class="skills-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+                    <div class="skill-card">
+                        <i class="fas fa-language"></i>
+                        <p><strong>English</strong></p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fas fa-language"></i>
+                        <p><strong>Hindi</strong> (Mother Tongue)</p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fas fa-language"></i>
+                        <p><strong>Urdu</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="achievements" class="section">
+                <h2 class="section-title">Achievements & Recognition</h2>
+                <p class="section-subtitle">Celebrating creative excellence</p>
+
+                <div class="achievement-card">
+                    <i class="fas fa-trophy"></i>
+                    <div>
+                        <h3>Calligraphy Recognition</h3>
+                        <p>Recognized twice in college for exceptional calligraphy work, receiving appreciation and prizes for creative expression and artistic skills.</p>
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <i class="fas fa-paint-brush"></i>
+                    <div>
+                        <h3>Campus Wall Art</h3>
+                        <p>Designed and painted stunning 2D and 3D wall art on the college campus, enhancing the visual appeal of the environment and showcasing strong artistic vision.</p>
+                    </div>
+                </div>
+
+                <div class="achievement-card">
+                    <i class="fas fa-star"></i>
+                    <div>
+                        <h3>Creative Excellence</h3>
+                        <p>Known for strong artistic skills and meticulous attention to detail in visual projects, combining technical expertise with creative flair.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId, event) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active from all nav items (both desktop and mobile)
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active to the clicked nav item (in both menus, if applicable)
+            
+            // Find the desktop nav item and activate it
+            const desktopNavItem = document.querySelector(`.nav-menu .nav-item[data-section="${sectionId}"]`);
+            if (desktopNavItem) {
+                desktopNavItem.classList.add('active');
+            }
+
+            // Find the mobile nav item and activate it
+            const mobileNavItem = document.querySelector(`.mobile-nav .nav-item[data-section="${sectionId}"]`);
+            if (mobileNavItem) {
+                mobileNavItem.classList.add('active');
+            }
+
+            // Fallback for the originally clicked item (in case the above selectors miss something)
+            if (event && event.currentTarget) {
+                 event.currentTarget.classList.add('active');
+            }
+        }
+
+        // Add smooth load animation on page load
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
